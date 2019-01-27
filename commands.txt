@@ -1,0 +1,32 @@
+aws s3 ls s3://amazon-reviews-pds/tsv/
+
+aws s3 cp s3://amazon-reviews-pds/parquet/product_category=Electronics/part-00000-495c48e6-96d6-4650-aa65-3c36a3516ddd.c000.snappy.parquet .
+
+aws s3 cp s3://amazon-reviews-pds/tsv/amazon_reviews_us_Camera_v1_00.tsv.gz s3://amazon-customer-reviews-dataset/tsv/amazon_reviews_us_Camera_v1_00.tsv.gz
+
+aws s3 cp s3://amazon-reviews-pds s3://amazon-customer-reviews-dataset --recursive
+
+aws s3 ls --summarize --human-readable --recursive s3://amazon-customer-reviews-dataset
+
+PUT
+http://localhost:9200/electronics
+
+elasticsearch-5.6.14 curl -X PUT localhost:9200/company
+
+POST
+http://localhost:9200/electronics/reviews/1
+{
+	"customer_id": 52826068,
+	"review_body": "These headphones are very nice.  Sound is quite good and well balanced.  I tend to balk at these only because they often seem kind of clunky and heavy.  These are really very comfortable.  Great for watching a movie or concert on a tablet laptop without bothering anybody.  Could have a nicer storage bag for price, but otherwise very good."
+}
+
+http://localhost:9200/_cat/indices
+
+http://localhost:9200/electronics/_search
+
+ps aux | grep 'java'
+kill -9 <PID>
+
+http://localhost:5601/
+
+aws s3api list-objects --bucket amazon-customer-reviews-dataset --output json --query "[sum(Contents[].Size), length(Contents[])]"

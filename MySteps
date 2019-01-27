@@ -1,0 +1,20 @@
+1) Created a project "consumer-insights"
+
+2) Created an S3 bucket "amazon-customer-reviews-dataset"
+
+3) Copied the contents of public dataset to my S3 bucket
+aws s3 cp s3://amazon-reviews-pds s3://amazon-customer-reviews-dataset --recursive
+
+4) Download Elastic Search
+export ES_HOME=~/elasticsearch-5.6.14
+elasticsearch
+
+5) Download Kibana
+export KIBANA_HOME=~/kibana-6.5.4-darwin-x86_64/
+cd config
+open kibana.yml
+"""
+server.port: 5601
+elasticsearch.url: "http://localhost:9200"
+"""
+
