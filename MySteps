@@ -6,15 +6,10 @@
 aws s3 cp s3://amazon-reviews-pds s3://amazon-customer-reviews-dataset --recursive
 
 4) Download Elastic Search
-export ES_HOME=~/elasticsearch-5.6.14
-elasticsearch
+export ES_HOME=~/elasticsearch-6.5.4
+elasticsearch #start elasticsearch
+Listen at http://localhost:9200/_cat/indices
 
-5) Download Kibana
-export KIBANA_HOME=~/kibana-6.5.4-darwin-x86_64/
-cd config
-open kibana.yml
-"""
-server.port: 5601
-elasticsearch.url: "http://localhost:9200"
-"""
+5) Create a flask application and execute run.py
+Listen at http://127.0.0.1:5000/
 
