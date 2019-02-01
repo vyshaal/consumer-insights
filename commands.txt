@@ -30,3 +30,15 @@ kill -9 <PID>
 aws s3 cp s3://amazon-customer-reviews-dataset/parquet/product_category=Electronics/ . --recursive
 
 http://localhost:9200/electronics/product/_search?q=product_title:bluetooth
+
+npm install -g @angular/cli
+
+ng new consumer-insights-client-angular
+cd consumer-insights-client-angular
+ng serve --open
+ng g c product-search
+ng g c product
+
+sudo kill -9 $(sudo lsof -t -i:4200)
+
+http://localhost:4200/

@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <h3>Search for a Product</h3>
+</div>
+
+<div class="row container-fluid">
+  <div class="col-md-6 form-group">
+    <input [(ngModel)]="feature" class="form-control input-sm">
+  </div>
+  <div class="col-md-6 form-group">
+    <button (click)="search(feature)" class="btn btn-primary">
+      Search
+    </button>
+  </div>
+</div>
+
+<div class="row container-fluid">
+  <div class="col-sm-8">
+    <!--<h5> Search Results</h5>-->
+    <ul class="list-group">
+      <li *ngFor="let p of products" class="list-group-item">
+
+        <a><h5 [routerLink]="['/product', p.product_id]">{{p.product_title}}</h5></a>
+        <h6>Product Rating: {{p.product_rating}} - ({{p.total_reviews}} Reviews)</h6>
+      </li>
+    </ul>
+  </div>
+  <div class="col-sm-4">
+    <!--<h4>Loading...</h4>-->
+  </div>
+</div>

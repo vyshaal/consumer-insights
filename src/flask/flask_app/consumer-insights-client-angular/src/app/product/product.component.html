@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="container-fluid">
+    {{product.product_id}}
+    <h3>{{product.product_title}}</h3>
+    <h5>Product Rating: {{product.product_rating}}</h5>
+    <h5>Number of Reviews: {{product.total_reviews}}</h5>
+  </div>
+
+  <div class="container-fluid">
+    <h4>Reviews</h4>
+    <div class="col-sm-8">
+    <ul class="list-group">
+      <li *ngFor="let review of reviews" class="list-group-item">
+        {{review}}
+      </li>
+    </ul>
+  </div>
+  </div>
+
+</div>

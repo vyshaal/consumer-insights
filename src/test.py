@@ -31,9 +31,9 @@ es.indices.delete(index='reviews', ignore=[404])
 for row in products.collect():
     body = row.asDict()
     ratings_counter = Counter(body['ratings'])
-    body.update({f'{k}-stars': v for k, v in ratings_counter.items()})
-    body.update({"Total Reviews": len(body["ratings"]),
-                 "Product Rating": round(sum(body["ratings"])/len(body["ratings"]), 2)})
+    body.update({f'{k}_stars': v for k, v in ratings_counter.items()})
+    body.update({"total_reviews": len(body["ratings"]),
+                 "product_rating": round(sum(body["ratings"])/len(body["ratings"]), 2)})
     del body['ratings']
     res = es.index(index='products', doc_type='product', id=row['product_id'], body=body)
     print(res)
