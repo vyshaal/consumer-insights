@@ -1,30 +1,35 @@
 <div class="container-fluid">
-  <h3>Search for a Product</h3>
-</div>
+  <div class="container-fluid">
+    <h4>Search for a Product</h4>
+    <!--<p>&nbsp;</p>-->
+  </div>
 
-<div class="row container-fluid">
-  <div class="col-md-6 form-group">
-    <input [(ngModel)]="feature" class="form-control input-sm">
+  <div class="container-fluid col-md-12" id="list-view">
+      <div class="row">
+          <div class="col-md-4 form-group">
+              <input [(ngModel)]="feature" class="form-control input-xlg" placeholder="jbl pulse">
+          </div>
+          <div class="col-md-2 form-group">
+            <button (click)="search(feature)" class="btn btn-primary btn-block btn-xlg">Search</button>
+          </div>
+      </div>
   </div>
-  <div class="col-md-6 form-group">
-    <button (click)="search(feature)" class="btn btn-primary">
-      Search
-    </button>
-  </div>
-</div>
 
-<div class="row container-fluid">
-  <div class="col-sm-8">
-    <!--<h5> Search Results</h5>-->
-    <ul class="list-group">
-      <li *ngFor="let p of products" class="list-group-item">
 
-        <a><h5 [routerLink]="['/product', p.product_id]">{{p.product_title}}</h5></a>
-        <h6>Product Rating: {{p.product_rating}} - ({{p.total_reviews}} Reviews)</h6>
-      </li>
-    </ul>
+  <div class="row container-fluid">
+    <div class="col-sm-8">
+      <!--<h5> Search Results</h5>-->
+      <ul class="list-group">
+        <li *ngFor="let p of products" class="list-group-item">
+
+          <a><h5 [routerLink]="['/product', p.product_id]">{{p.product_title}}</h5></a>
+          <h6>Product Rating: {{p.product_rating}} - ({{p.total_reviews}} Reviews)</h6>
+        </li>
+      </ul>
+    </div>
+    <!--<div class="col-sm-4">-->
+      <!--&lt;!&ndash;<h4>Loading...</h4>&ndash;&gt;-->
+    <!--</div>-->
   </div>
-  <div class="col-sm-4">
-    <!--<h4>Loading...</h4>-->
-  </div>
+
 </div>

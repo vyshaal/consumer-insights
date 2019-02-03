@@ -30,11 +30,17 @@ def search_product(product_name=None):
         "query":
             {
                     "match": {"product_title": product_name}
+            },
+        "sort":
+            {
+                "total_reviews": {
+                    "order": "desc"
+                }
             }
         }
 
     response = es.search(index='products', doc_type='product', body=body)
-    return jsonify(response['hits']['hits'])
+    return jsonify(response)
 
 
 @app.route('/api/product/<product_id>')
@@ -49,12 +55,12 @@ def fetch_product(product_id=None):
 def fetch_product_reviews(product_id=None):
     response = es.search(index='reviews', doc_type='review',
                          body={"query": {"match": {"product_id": product_id}}})
-    return jsonify(response['hits']['hits'])
+    return jsonify(response)
 
 
-@app.route('/api/product/<product_id>/review/<review_id>')
+@app.route('/api/review/<review_id>')
 @cross_origin()
-def fetch_product_review(product_id=None, review_id=None):
+def fetch_review(review_id=None):
     response = es.get(index='reviews', doc_type='review', id=review_id)
     return jsonify(response['_source'])
 
@@ -82,4 +88,4 @@ def search_product_reviews(product_id=None, feature=None):
             }
         }
     response = es.search(index='reviews', doc_type='review', body=body)
-    return jsonify(response['hits']['hits'])
+    return jsonify(response)

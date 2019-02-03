@@ -42,3 +42,10 @@ ng g c product
 sudo kill -9 $(sudo lsof -t -i:4200)
 
 http://localhost:4200/
+
+export AIRFLOW_GPL_UNIDECODE=yes
+
+peg sshcmd-cluster spark-cluster 'sudo apt install bc --assume-yes'
+peg sshcmd-cluster spark-cluster 'sudo shutdown -r 0'
+
+spark-submit play.py --master spark://ip-10-0-0-8.ec2.internal:7077 --deploy-mode cluster

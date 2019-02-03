@@ -1,20 +1,36 @@
 <div class="container-fluid">
-  <div class="container-fluid">
-    {{product.product_id}}
-    <h3>{{product.product_title}}</h3>
-    <h5>Product Rating: {{product.product_rating}}</h5>
-    <h5>Number of Reviews: {{product.total_reviews}}</h5>
+  <div class="row col-sm-8">
+    <div class="container-fluid">
+      <h3>{{product.product_title}}</h3>
+      <h5>Product Rating: {{product.product_rating}}</h5>
+      <h5>Number of Reviews: {{product.total_reviews}}</h5>
+    </div>
+  </div>
+
+  <div class="container-fluid col-md-12" id="list-view">
+      <div class="row">
+          <div class="col-md-7 form-group">
+              <input [(ngModel)]="feature" class="form-control input-xlg" placeholder="terrible">
+          </div>
+          <div class="col-md-3 form-group">
+            <button (click)="search(feature)" class="btn btn-primary btn-block btn-xlg">Search</button>
+          </div>
+      </div>
   </div>
 
   <div class="container-fluid">
     <h4>Reviews</h4>
     <div class="col-sm-8">
-    <ul class="list-group">
-      <li *ngFor="let review of reviews" class="list-group-item">
-        {{review}}
-      </li>
-    </ul>
-  </div>
+      <ul class="list-group">
+        <li *ngFor="let review of reviews" class="list-group-item">
+          <div class="row">
+              <h5 class="pull-left col-sm-6">{{review.review_headline}}</h5>
+              <h6 class="pull-right col-sm-6">Rating: {{review.star_rating}}</h6>
+          </div>
+          <div [innerHTML]=review.review_body></div>
+        </li>
+      </ul>
+    </div>
   </div>
 
 </div>

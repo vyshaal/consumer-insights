@@ -15,15 +15,16 @@ export class ProductSearchComponent implements OnInit {
   feature = "";
   products: Product[];
   dummy = [];
+  count = 0;
   search = (feature) => {
     // alert("Searching for: " + feature);
     this.productService.findProductBySearch(feature)
-      .then(response => this.dummy = response);
-    this.products = this.dummy.map(function (x) {
-        return x["_source"]
+      .then(response => {
+        this.count = response['hits']['total'];
+        this.dummy = response['hits']['hits'];
+        this.products = this.dummy.map(function (x) {return x["_source"]});
       });
-    console.log(this.products)
-    return
+    console.log(this.products);
   };
 
 

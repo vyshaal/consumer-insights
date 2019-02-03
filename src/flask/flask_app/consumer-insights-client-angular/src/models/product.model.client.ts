@@ -3,9 +3,10 @@ export class Product{
   "product_title": string;
   "product_rating": string;
   "total_reviews": string;
-  "1_stars": string;
-  "2_stars": string;
-  "3_stars": string;
-  "4_stars": string;
-  "5_stars": string;
+  "1_stars": number = 0;
+  "2_stars": number = 0;
+  "3_stars": number = 0;
+  "4_stars": number = 0;
+  "5_stars": number = 0;
+
 }

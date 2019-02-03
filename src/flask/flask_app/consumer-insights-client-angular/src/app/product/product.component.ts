@@ -19,13 +19,33 @@ export class ProductComponent implements OnInit {
   reviews: Review[];
   dummy = [];
   product_id = "";
-
+  count = 0;
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
-      console.log(params.get('productId'));
-      this.productService.findProductById(params.get('productId')).then(response => this.product = response);
+      this.productService.findProductById(params.get('productId')).then(
+        response => {
+          this.product = response;
+          console.log(this.product);
+          this.reviewService.findReviewByProduct(this.product["product_id"]).then(
+            res => {
+              this.count = res['hits']['total'];
+              this.dummy = res['hits']['hits'];
+              this.reviews = this.dummy.map(function (x) {return x["_source"]});
+              console.log(this.reviews);
+            }
+          )
+        });
     });
-
   }
+
+  search = (feature) => {
+    this.reviewService.findReviewBySearch(this.product.product_id, feature)
+      .then(response => {
+        this.count = response['hits']['total'];
+        this.dummy = response['hits']['hits'];
+        this.reviews = this.dummy.map(function (x) {return x["_source"]});
+      });
+    console.log(this.reviews);
+  };
 
 }
