@@ -38,6 +38,7 @@ cd consumer-insights-client-angular
 ng serve --open
 ng g c product-search
 ng g c product
+npm install --save-dev @angular-devkit/build-angular
 
 sudo kill -9 $(sudo lsof -t -i:4200)
 
@@ -49,3 +50,5 @@ peg sshcmd-cluster spark-cluster 'sudo apt install bc --assume-yes'
 peg sshcmd-cluster spark-cluster 'sudo shutdown -r 0'
 
 spark-submit play.py --master spark://ip-10-0-0-8.ec2.internal:7077 --deploy-mode cluster
+
+python -m pip uninstall -y pip

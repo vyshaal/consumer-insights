@@ -1,0 +1,10 @@
+purchase_type: on_demand
+subnet_id: subnet-0f55b8728aa9cf2ef
+num_instances: 1
+key_name: vyshaal-IAM-keypair
+security_group_ids: sg-0dcc9c3a56f176edb
+instance_type: m4.large
+tag_name: elastic-cluster
+vol_size: 100
+role: master
+use_eips: true
