@@ -4,8 +4,10 @@ from flask import jsonify
 from elasticsearch5 import Elasticsearch
 import json
 
+
 cors = CORS(app)
-es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+es_cluster = ["ec2-34-237-82-149.compute-1.amazonaws.com:9200"]
+es = Elasticsearch(es_cluster)
 
 
 @app.route('/')

@@ -49,6 +49,14 @@ export AIRFLOW_GPL_UNIDECODE=yes
 peg sshcmd-cluster spark-cluster 'sudo apt install bc --assume-yes'
 peg sshcmd-cluster spark-cluster 'sudo shutdown -r 0'
 
+peg sshcmd-cluster spark-cluster 'sudo pip install --upgrade pip'
+peg sshcmd-cluster spark-cluster 'sudo pip install elasticsearch'
+peg sshcmd-cluster spark-cluster 'sudo pip install bson'
+
 spark-submit play.py --master spark://ip-10-0-0-8.ec2.internal:7077 --deploy-mode cluster
 
 python -m pip uninstall -y pip
+
+curl 'localhost:9200/_cat/nodes?v'
+
+peg sshcmd-cluster spark-cluster 'export PYSPARK_PYTHON=python3.5'
