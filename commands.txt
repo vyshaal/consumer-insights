@@ -32,6 +32,7 @@ aws s3 cp s3://amazon-customer-reviews-dataset/parquet/product_category=Electron
 http://localhost:9200/electronics/product/_search?q=product_title:bluetooth
 
 npm install -g @angular/cli
+npm install --save-dev @angular/cli@latest
 
 ng new consumer-insights-client-angular
 cd consumer-insights-client-angular
@@ -60,3 +61,11 @@ python -m pip uninstall -y pip
 curl 'localhost:9200/_cat/nodes?v'
 
 peg sshcmd-cluster spark-cluster 'export PYSPARK_PYTHON=python3.5'
+
+sudo apt-get install python3-pip
+sudo python3 -m pip install package
+
+sudo apt install ng-common
+
+sudo apt-get install npm
+

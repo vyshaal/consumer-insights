@@ -10,6 +10,6 @@ source $PRJ_DIR/setup/elasticsearch/spin-elasticsearch.sh
 wait
 echo "completed $CLUSTER_NAME"
 
-#source $PRJ_DIR/setup/flask/spin-flask.sh
+#source $PRJ_DIR/setup/application/spin-application.sh
 #wait
 #echo "completed $CLUSTER_NAME"

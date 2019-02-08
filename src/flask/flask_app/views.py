@@ -1,7 +1,7 @@
 from flask_app import app
 from flask_cors import CORS, cross_origin
 from flask import jsonify
-from elasticsearch5 import Elasticsearch
+from elasticsearch import Elasticsearch
 import json
 
 
@@ -29,10 +29,12 @@ def all_products():
 @cross_origin()
 def search_product(product_name=None):
     body = {
+        "size": 15,
         "query":
             {
                     "match": {"product_title": product_name}
-            },
+            }
+        ,
         "sort":
             {
                 "total_reviews": {
