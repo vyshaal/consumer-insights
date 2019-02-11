@@ -3,7 +3,8 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class ReviewService{
 
-  url = "http://localhost:5000/api/product/";
+  // url = "http://localhost:5000/api/product/";
+  url = "http://ec2-54-82-141-80.compute-1.amazonaws.com:5000/api/product/";
 
   findAllReviews = product_id =>
     fetch(this.url+product_id+"/review").then(res => res.json());
