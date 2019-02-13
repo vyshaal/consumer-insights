@@ -44,7 +44,7 @@ export class ProductComponent implements OnInit {
   }
 
   search = (feature) => {
-    this.the_review = Review;
+    this.the_review = new Review();
     this.reviewService.findReviewBySearch(this.product.product_id, feature)
       .then(response => {
         this.count = response['hits']['total'];
