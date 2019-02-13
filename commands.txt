@@ -39,7 +39,10 @@ cd consumer-insights-client-angular
 ng serve --open
 ng g c product-search
 ng g c product
+ng g c star-rating
+
 npm install --save-dev @angular-devkit/build-angular
+npm install --save @ng-bootstrap/ng-bootstrap
 
 sudo kill -9 $(sudo lsof -t -i:4200)
 

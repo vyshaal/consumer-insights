@@ -4,6 +4,7 @@ import {Product} from "../../models/product.model.client";
 import {ProductService} from "../../services/product.service.client";
 import {Review} from "../../models/review.model.client";
 import {ReviewService} from "../../services/review.service.client";
+import {NgbRatingConfig} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-product',
@@ -13,10 +14,14 @@ import {ReviewService} from "../../services/review.service.client";
 export class ProductComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private productService: ProductService,
-              private reviewService: ReviewService) {}
+              private reviewService: ReviewService, private config: NgbRatingConfig) {
+    config.max = 5;
+    config.readonly = true;
+  }
 
   product: Product;
   reviews: Review[];
+  the_review: Review;
   dummy = [];
   product_id = "";
   count = 0;
@@ -39,6 +44,7 @@ export class ProductComponent implements OnInit {
   }
 
   search = (feature) => {
+    this.the_review = Review;
     this.reviewService.findReviewBySearch(this.product.product_id, feature)
       .then(response => {
         this.count = response['hits']['total'];
@@ -48,4 +54,8 @@ export class ProductComponent implements OnInit {
     console.log(this.reviews);
   };
 
+  showReview = (review) => {
+    this.the_review = review;
+    console.log(this.the_review);
+  }
 }

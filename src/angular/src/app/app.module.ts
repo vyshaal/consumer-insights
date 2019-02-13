@@ -8,6 +8,8 @@ import {ReviewService} from "../services/review.service.client";
 import { ProductSearchComponent } from './product-search/product-search.component';
 import {FormsModule} from "@angular/forms";
 import { ProductComponent } from './product/product.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { ProductComponent } from './product/product.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [
     ProductService,

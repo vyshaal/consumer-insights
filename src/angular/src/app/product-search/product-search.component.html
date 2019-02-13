@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <div class="container-fluid">
+    <h4>Search for a Product</h4>
+    <!--<p>&nbsp;</p>-->
+  </div>
+
+  <div class="container-fluid col-md-12" id="list-view">
+      <div class="row">
+          <div class="col-md-4 form-group">
+              <input [(ngModel)]="feature" class="form-control input-xlg" placeholder="I'm looking for eg: bose speaker">
+          </div>
+          <div class="col-md-3 form-group">
+            <button (click)="search(feature)" class="btn btn-primary btn-block btn-xlg">Search</button>
+          </div>
+      </div>
+  </div>
+
+
+  <div class="row container-fluid">
+    <div class="col-sm-12">
+      <!--<h5> Search Results</h5>-->
+      <ul class="list-group">
+        <li *ngFor="let p of products" class="list-group-item">
+          <div class="container-fluid row" (mouseenter)="p.hovered=true" (mouseleave)="p.hovered=false">
+            <div class="col-sm-6">
+              <a><h4 id="product" [routerLink]="['/product', p.product_id]">{{p.product_title}}</h4></a>
+              <div class="col-sm-6">
+                <ngb-rating [(rate)]="p.product_rating" [starTemplate]="t"></ngb-rating>
+                <ng-template #t let-fill="fill">
+                  <span class="star" [class.full]="fill === p.product_rating">
+                    <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+                  </span>
+                </ng-template>
+              </div>
+              <div class="col-sm-offset-2">
+                <h5>{{p.total_reviews}} Reviews</h5>
+              </div>
+            </div>
+            <div class="col-sm-6" *ngIf="p.hovered">
+              <pre>Rating: {{p.product_rating}} out of 5  ({{p.total_reviews}} Reviews)</pre>
+              <hr>
+              <p>5 stars: {{p["5_stars"]}} | 4 stars: {{p["4_stars"]}} | 3 stars: {{p["3_stars"]}} | 2 stars: {{p["2_stars"]}} | 1 stars: {{p["1_stars"]}}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>

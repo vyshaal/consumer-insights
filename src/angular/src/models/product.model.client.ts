@@ -8,5 +8,4 @@ export class Product{
   "3_stars": number = 0;
   "4_stars": number = 0;
   "5_stars": number = 0;
-
 }
