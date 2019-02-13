@@ -6,7 +6,7 @@ import json
 
 
 cors = CORS(app)
-es_cluster = ["ec2-34-237-82-149.compute-1.amazonaws.com:9200"]
+es_cluster = [{'host': "ec2-34-237-82-149.compute-1.amazonaws.com", 'port': 9200}]
 es_client = Elasticsearch(es_cluster)
 
 

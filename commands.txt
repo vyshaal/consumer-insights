@@ -74,4 +74,6 @@ sudo apt-get install npm
 
 ng serve --host 0.0.0.0 --disableHostCheck true
 
-sudo apt-get install tmux
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+start-dfs.sh
