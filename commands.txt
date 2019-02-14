@@ -77,3 +77,7 @@ ng serve --host 0.0.0.0 --disableHostCheck true
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 start-dfs.sh
+
+sudo AIRFLOW_GPL_UNIDECODE=yes pip3 install apache-airflow
+
+airflow webserver -p 8081

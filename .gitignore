@@ -1,4 +1,2 @@
 .idea/
-input/*.snappy.parquet
 **.pyc
-sample_input/*.parquet
