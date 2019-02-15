@@ -30,13 +30,15 @@ def compute_analytics(product):
 
 
 es_cluster = [{'host': ES_REMOTE, 'port': 9200}]
+#hosts = ["ec2-34-237-82-149.compute-1.amazonaws.com","ec2-54-209-26-36.compute-1.amazonaws.com","ec2-3-94-235-239.compute-1.amazonaws.com"]
+#hosts = ["ec2-34-237-82-149.compute-1.amazonaws.com"]
 es_client = Elasticsearch(es_cluster)
 
 
 spark = SparkSession.builder\
     .master("spark://ec2-34-199-62-71.compute-1.amazonaws.com:7077")\
     .appName("consumer-insights")\
-    .config("spark.executor.memory", "4gb")\
+    .config("spark.executor.memory", "6gb")\
     .getOrCreate()
 
 # spark = SparkSession.builder\
@@ -46,7 +48,7 @@ spark = SparkSession.builder\
 sc = spark.sparkContext
 sqlContext = SQLContext(sc)
 
-reviews = sqlContext.read.parquet("s3a://amazon-customer-reviews-dataset/timestamp/1999.parquet/*.parquet")
+reviews = sqlContext.read.parquet("s3n://amazon-customer-reviews-dataset/timeseries/201*/*/*.parquet")
 
 es_client.indices.delete(index='products', ignore=[404])
 es_client.indices.delete(index='reviews', ignore=[404])
@@ -56,7 +58,8 @@ es_write_products_conf = {
     "es.port": '9200',
     "es.resource": 'products/product',
     "es.input.json": "yes",
-    "es.mapping.id": "product_id"
+    "es.mapping.id": "product_id",
+    "es.nodes.wan.only": "True"
 }
 
 es_write_reviews_conf = {
@@ -64,7 +67,8 @@ es_write_reviews_conf = {
     "es.port": '9200',
     "es.resource": 'reviews/review',
     "es.input.json": "yes",
-    "es.mapping.id": "review_id"
+    "es.mapping.id": "review_id",
+    "es.nodes.wan.only": "True"
 }
 
 products = reviews.groupby("product_id", "product_title").agg(F.collect_list("star_rating").alias("ratings"),
