@@ -1,2 +1,4 @@
 .idea/
 **.pyc
+src/airflow/logs
+src/airflow/airflow.db
