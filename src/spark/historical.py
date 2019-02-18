@@ -1,6 +1,3 @@
-# from config.aws import AWS_DEFAULT_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, MY_BUCKET
-# import boto3
-# from airflow import DAG
 from pyspark.sql import SparkSession, SQLContext, Row
 from pyspark.sql import functions as F
 from elasticsearch import Elasticsearch
@@ -9,7 +6,6 @@ import json
 import datetime
 
 ES_REMOTE = "ec2-34-237-82-149.compute-1.amazonaws.com"
-ES_LOCAL = "localhost"
 
 
 class Encoder(json.JSONEncoder):
@@ -29,10 +25,7 @@ def compute_analytics(product):
     return product["product_id"], json.dumps(body, cls=Encoder)
 
 
-hosts = ["ec2-34-237-82-149.compute-1.amazonaws.com","ec2-54-209-26-36.compute-1.amazonaws.com","ec2-3-94-235-239.compute-1.amazonaws.com"]
-hosts = ["ec2-34-237-82-149.compute-1.amazonaws.com"]
-
-es_cluster = [{'hosts': hosts, 'port': 9200}]
+es_cluster = [{'host': ES_REMOTE, 'port': 9200}]
 es_client = Elasticsearch(es_cluster)
 
 
@@ -42,9 +35,6 @@ spark = SparkSession.builder\
     .config("spark.executor.memory", "6gb")\
     .getOrCreate()
 
-# spark = SparkSession.builder\
-#     .appName("consumer-insights")\
-#     .getOrCreate()
 
 sc = spark.sparkContext
 sqlContext = SQLContext(sc)

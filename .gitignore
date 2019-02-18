@@ -2,3 +2,4 @@
 **.pyc
 src/airflow/logs/*
 src/airflow/airflow.db
+src/airflow/airflow-webserver.pid
