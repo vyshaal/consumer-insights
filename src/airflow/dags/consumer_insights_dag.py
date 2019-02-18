@@ -25,25 +25,12 @@ dag = DAG(
   dag_id='consumer_insights_dag',
   description='Consumer Insights DAG',
   default_args=default_args,
-  schedule_interval="0,10,20 22 18 2 *")
+  schedule_interval="25,30,35 20 19 2 *")
 
-
-year = 1998
-
-
-def get_year():
-    global year
-    # os.system("spark-submit ~/consumer-insights/src/spark/batch.py "+str(year))
-    year += 1
-    return str(year)
-
-
-start_spark = BashOperator(task_id='start_spark', bash_command="echo 'Hey, I have started the spark job'", dag=dag)
 
 run_spark = BashOperator(task_id='run_spark',
-                         bash_command='spark-submit --packages org.elasticsearch:elasticsearch-spark-20_2.10:6.6.0 '
-                                      '~/consumer-insights/src/spark/batch.py '+get_year(), dag=dag)
+                         bash_command='spark-submit --packages org.elasticsearch:elasticsearch-spark-20_2.10:6.6.0 ~/consumer-insights/src/spark/batch.py $YEAR;((YEAR+=1))', dag=dag)
 
-stop_spark = BashOperator(task_id='stop_spark', bash_command="echo 'Finished writing data to Elasticsearch'", dag=dag)
+notify = BashOperator(task_id='notify', bash_command="echo 'Hey, Spark job is finished successfully'", dag=dag)
 
-start_spark >> run_spark >> stop_spark
+run_spark >> notify
