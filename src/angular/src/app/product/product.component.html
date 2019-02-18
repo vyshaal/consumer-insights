@@ -1,9 +1,21 @@
 <div class="container-fluid">
 
-  <div *ngIf="product != null" class="container-fluid">
-    <h3>{{product.product_title}}</h3>
-    <h5>Product Rating: {{product.product_rating}}</h5>
-    <h5>Number of Reviews: {{product.total_reviews}}</h5>
+  <div *ngIf="product != null">
+    <h3 class="ci-title">{{product.product_title}}</h3>
+    <hr>
+    <h5>5 stars: {{product["5_stars"]}} | 4 stars: {{product["4_stars"]}} | 3 stars: {{product["3_stars"]}} |
+      2 stars: {{product["2_stars"]}} | 1 stars: {{product["1_stars"]}}</h5>
+    <div class="col-sm-9 ci-title">
+      <h5>
+        <span class="left">
+          Product Rating: {{product.product_rating}}
+        </span>
+        <span class="right">
+          Number of Reviews: {{product.total_reviews}}
+        </span>
+      </h5>
+    </div><br><br>
+    <!--<h5>Number of Reviews: {{product.total_reviews}}</h5>-->
   </div>
 
 
@@ -16,20 +28,26 @@
       </div>
   </div>
   <div class="container-fluid row">
-    <div class="container-fluid col-sm-6">
+    <div class="container-fluid col-sm-9">
         <ul class="list-group">
           <li *ngFor="let review of reviews" class="list-group-item">
             <div (click)="showReview(review)">
-              <div class="row">
-                  <h5 class="pull-left col-sm-6">{{review.review_headline}}</h5>
-                  <h6 class="pull-right col-sm-6">Rating: {{review.star_rating}}</h6>
+              <div class="container-fluid">
+                <h5>
+                  <span class="left ci-title" [innerHTML]="review.review_headline"></span>
+                  <span class="right">Date: {{review.review_date}}</span>​
+                </h5>
               </div>
-              <div [innerHTML]=review.review_body></div>
+              <div class="container-fluid">
+                <ngb-rating [rate]="review.star_rating" readonly="true"></ngb-rating>
+              </div>
+              <hr>
+              <div class="container-fluid" [innerHTML]=review.review_body></div>
             </div>
           </li>
         </ul>
     </div>
-    <div class="container-fluid col-sm-6">
+    <div class="container-fluid col-sm-3">
       <div *ngIf="the_review != null"></div>
         <h3>{{the_review.review_headline}}</h3>
         <div [innerHTML]=the_review.review_body></div>
