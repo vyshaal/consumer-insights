@@ -19,39 +19,13 @@ YEAR = sys.argv[1]
 
 
 def save_products():
-    for product in products.collect():
-        body = product.asDict()
-        ratings_counter = Counter(body['ratings'])
-        body.update({str(k) + "_stars": ratings_counter[k] if k in ratings_counter else 0 for k in range(1, 6)})
-        body.update({"total_reviews": len(body["ratings"]),
-                     "product_rating": round(sum(body["ratings"]) / len(body["ratings"]), 3)})
-        q = {
-            "script": {
-                "source": "ctx._source.product_rating = ((ctx._source.total_reviews*ctx._source.product_rating) + "
-                          "(params.body.total_reviews*params.body.product_rating)) / "
-                          "(ctx._source.total_reviews+params.body.total_reviews);"
-                          "ctx._source.total_reviews += params.body.total_reviews;"
-                          "ctx._source.ratings.addAll(params.body.ratings);"
-                          "ctx._source.review_dates.addAll(params.body.review_dates);"
-                          "ctx._source['1_stars'] += params.body['1_stars'];"
-                          "ctx._source['2_stars'] += params.body['2_stars'];"
-                          "ctx._source['3_stars'] += params.body['3_stars'];"
-                          "ctx._source['4_stars'] += params.body['4_stars'];"
-                          "ctx._source['5_stars'] += params.body['5_stars'];",
-                "params": {
-                    "body": body
-                }
-            },
-            "upsert": body
-        }
-        es_client.update(index="products", doc_type="product", id=product["product_id"], body=q)
-
-    products.rdd.mapPartitions(compute_analytics)
+    products.foreachPartition(compute_analytics)
 
 
-def compute_analytics(partition):
-    for product in partition:
-        print(product)
+def compute_analytics(product_list):
+    es_cluster = [{'host': ES_HOST, 'port': 9200}]
+    es_client = Elasticsearch(es_cluster)
+    for product in product_list:
         body = product.asDict()
         ratings_counter = Counter(body['ratings'])
         body.update({str(k) + "_stars": ratings_counter[k] if k in ratings_counter else 0 for k in range(1, 6)})
