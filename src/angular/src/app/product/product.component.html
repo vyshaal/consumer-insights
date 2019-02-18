@@ -8,7 +8,7 @@
     <div class="col-sm-9 ci-title">
       <h5>
         <span class="left">
-          Product Rating: {{product.product_rating}}
+          Product Rating: {{product.product_rating | number: '1.2-2'}}
         </span>
         <span class="right">
           Number of Reviews: {{product.total_reviews}}

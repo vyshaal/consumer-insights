@@ -37,7 +37,7 @@
               </div>
             </div>
             <div class="col-sm-6" *ngIf="p.hovered">
-              <pre>Rating: {{p.product_rating}} out of 5  ({{p.total_reviews}} Reviews)</pre>
+              <pre>Rating: {{p.product_rating | number: '1.2-2'}} out of 5  ({{p.total_reviews}} Reviews)</pre>
               <hr>
               <p>5 stars: {{p["5_stars"]}} | 4 stars: {{p["4_stars"]}} | 3 stars: {{p["3_stars"]}} | 2 stars: {{p["2_stars"]}} | 1 stars: {{p["1_stars"]}}</p>
             </div>
