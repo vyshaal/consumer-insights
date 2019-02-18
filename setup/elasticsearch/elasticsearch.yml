@@ -1,6 +1,7 @@
 xpack.security.enabled: false
 
 discovery.zen.ping.unicast.hosts: ["ip-10-0-0-7","ip-10-0-0-10","ip-10-0-0-6"]
+discovery.zen.ping.unicast.hosts: ["ec2-34-237-82-149.compute-1.amazonaws.com","ec2-54-209-26-36.compute-1.amazonaws.com","ec2-3-94-235-239.compute-1.amazonaws.com"]
 discovery.ec2.groups: sg-0dcc9c3a56f176edb
 discovery.zen.minimum_master_nodes: 1
 

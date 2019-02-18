@@ -54,7 +54,8 @@ peg sshcmd-cluster spark-cluster 'sudo apt install bc --assume-yes'
 peg sshcmd-cluster spark-cluster 'sudo shutdown -r 0'
 
 peg sshcmd-cluster spark-cluster 'sudo pip install --upgrade pip'
-peg sshcmd-cluster spark-cluster 'sudo pip install elasticsearch'
+peg sshcmd-cluster spark-cluster 'python3 -m pip install elasticsearch'
+peg sshcmd-cluster spark-cluster "sudo apt-get install python3-pip --assume-yes"
 peg sshcmd-cluster spark-cluster 'sudo pip install bson'
 
 spark-submit play.py --master spark://ip-10-0-0-8.ec2.internal:7077 --deploy-mode cluster
