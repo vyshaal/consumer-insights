@@ -1,11 +1,11 @@
 <div class="container-fluid">
 
-  <div *ngIf="product != null">
+  <div *ngIf="product != null" class="container-fluid col-sm-9">
     <h3 class="ci-title">{{product.product_title}}</h3>
     <hr>
     <h5>5 stars: {{product["5_stars"]}} | 4 stars: {{product["4_stars"]}} | 3 stars: {{product["3_stars"]}} |
       2 stars: {{product["2_stars"]}} | 1 stars: {{product["1_stars"]}}</h5>
-    <div class="col-sm-9 ci-title">
+    <div class="ci-title">
       <h5>
         <span class="left">
           Product Rating: {{product.product_rating | number: '1.2-2'}}
@@ -48,9 +48,10 @@
         </ul>
     </div>
     <div class="container-fluid col-sm-3">
-      <div *ngIf="the_review != null"></div>
-        <h3>{{the_review.review_headline}}</h3>
-        <div [innerHTML]=the_review.review_body></div>
+      <!--<div *ngIf="the_review != null">-->
+        <!--<h3>{{the_review.review_headline}}</h3>-->
+        <!--<div [innerHTML]=the_review.review_body></div>-->
+      <!--</div>-->
     </div>
   </div>
 </div>
