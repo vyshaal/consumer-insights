@@ -1,5 +1,7 @@
 .idea/
 **.pyc
+src/flask/flask_app/__pycache__
 src/airflow/logs/*
 src/airflow/airflow.db
 src/airflow/airflow-webserver.pid
+src/spark/spark-warehouse

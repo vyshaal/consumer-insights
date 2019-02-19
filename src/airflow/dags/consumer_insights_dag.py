@@ -25,11 +25,11 @@ dag = DAG(
   dag_id='consumer_insights_dag',
   description='Consumer Insights DAG',
   default_args=default_args,
-  schedule_interval="25,30,35 20 19 2 *")
-
+  schedule_interval="0 0-16 20 2 *")
 
 run_spark = BashOperator(task_id='run_spark',
-                         bash_command='spark-submit --packages org.elasticsearch:elasticsearch-spark-20_2.10:6.6.0 ~/consumer-insights/src/spark/batch.py $YEAR;((YEAR+=1))', dag=dag)
+                         bash_command='spark-submit --packages org.elasticsearch:elasticsearch-spark-20_2.10:6.6.0 '
+                                      '~/consumer-insights/src/spark/batch.py', dag=dag)
 
 notify = BashOperator(task_id='notify', bash_command="echo 'Hey, Spark job is finished successfully'", dag=dag)
 

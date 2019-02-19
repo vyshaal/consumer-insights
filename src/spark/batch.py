@@ -1,21 +1,37 @@
-from airflow import DAG
 from pyspark.sql import SparkSession, SQLContext, Row
 from pyspark.sql import functions as F
-from pyspark.sql.types import IntegerType
 from elasticsearch import Elasticsearch
 from collections import Counter
-import json
 import datetime
-import sys
-import os
-
+import json
 
 ES_HOST = "ec2-34-237-82-149.compute-1.amazonaws.com"
 INITIAL_YEAR = "1999"
-YEAR = sys.argv[1]
 
 # hosts = ["ec2-34-237-82-149.compute-1.amazonaws.com","ec2-54-209-26-36.compute-1.amazonaws.com","ec2-3-94-235-239.compute-1.amazonaws.com"]
 #hosts = ["ec2-34-237-82-149.compute-1.amazonaws.com"]
+
+
+def conditional_delete_indices(year):
+    if year == INITIAL_YEAR or year == "*":
+        es_client.indices.delete(index='products', ignore=[404])
+        es_client.indices.delete(index='reviews', ignore=[404])
+
+
+def get_year():
+    read_file = open("year.txt", "r")
+    year = str(read_file.read())
+    if year is None or year == "" or int(year) > 2015:
+        year = "1999"
+    return year
+
+
+def update_year(year):
+    if year == "*":
+        return
+    write_file = open("year.txt", "w")
+    write_file.write(str(int(year) + 1))
+    write_file.close()
 
 
 def save_products():
@@ -74,12 +90,6 @@ def save_reviews():
     )
 
 
-def conditional_delete_indices():
-    if YEAR == INITIAL_YEAR:
-        es_client.indices.delete(index='products', ignore=[404])
-        es_client.indices.delete(index='reviews', ignore=[404])
-
-
 if __name__ == "__main__":
     es_cluster = [{'host': ES_HOST, 'port': 9200}]
     es_client = Elasticsearch(es_cluster)
@@ -93,9 +103,9 @@ if __name__ == "__main__":
     sc = spark.sparkContext
     sqlContext = SQLContext(sc)
 
-    conditional_delete_indices()
-
-    reviews = sqlContext.read.parquet("s3n://amazon-customer-reviews-dataset/timeseries/" + YEAR +
+    current_year = get_year()
+    conditional_delete_indices(current_year)
+    reviews = sqlContext.read.parquet("s3n://amazon-customer-reviews-dataset/timeseries/" + current_year +
                                       "/Electronics/*.parquet")
 
     products = reviews.groupby("product_id", "product_title").agg(F.collect_list("star_rating").alias("ratings"),
@@ -104,4 +114,5 @@ if __name__ == "__main__":
     save_products()
     save_reviews()
     spark.stop()
-    print('Done with the year: ' + YEAR)
+    update_year(current_year)
+    print('Done with the year: ' + current_year)
