@@ -16,6 +16,10 @@ Link to Consumer Insights: [consumerinsights.info:4200](http://consumerinsights.
 A search platform for product makers where they conduct their market research, understand what people are
 talking about various products in the market
 
+![Demo](http://g.recordit.co/97XX0cl3nG.gif)
+
+In the demo, you can observe that while searching for "annoying" most of the people are complaining that the 
+speaker is turning off automatically to save power.
 
 ## Data
 [Amazon Customer Reviews Dataset](https://registry.opendata.aws/amazon-reviews/)
