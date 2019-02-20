@@ -3,8 +3,15 @@
 ## Motivation
 “Not being customer-centric is the biggest threat to any business”
 
-For example, I produce Bose Speakers. As a product maker, I would be interested to know what people are talking about
-my product.
+Manufacturers and product designers are often interested in knowing how their product is doing in the market. 
+Now-a-days there are various avenues where they can collect feedback from the end customers. These are one of the 
+greatest data engineering problems to convert these large sets of data into valuable insights. From customer reviews 
+not only we can understand whether a customer liked a product or not but also get specifics of what went wrong or what 
+is it that they liked. This project will help in analyzing and solving some of these problems.
+
+For example, a Product Manager at Bose Speakers would be interested in how their speakers are received in the market 
+and what their customers are talking about the speakers.
+
 * What do they like?
 * What're they annoyed about?
 * What do they expect?
@@ -13,8 +20,7 @@ my product.
 ## Solution
 Link to Consumer Insights: [consumerinsights.info:4200](http://consumerinsights.info:4200/)
 
-A search platform for product makers where they conduct their market research, understand what people are
-talking about various products in the market
+A search platform for product makers to learn "Consumer Insights"
 
 ![Demo](http://g.recordit.co/97XX0cl3nG.gif)
 
