@@ -22,6 +22,7 @@ def index():
 def all_products():
     body = \
     {
+        "size": 25,
         "query": {
             "match_all": {}
         },
@@ -40,6 +41,7 @@ def all_products():
 def search_product(product_name=None):
     body = \
         {
+            "size": 25,
             "query": {
                 "function_score": {
                     "query": {
@@ -90,6 +92,7 @@ def fetch_review(review_id=None):
 def search_product_reviews(product_id=None, feature=None):
     body = \
         {
+            "size": 25,
             "query": {
                 "bool": {
                     "must": [
