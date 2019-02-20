@@ -25,8 +25,7 @@ dag = DAG(
   dag_id='consumer_insights_dag',
   description='Consumer Insights DAG',
   default_args=default_args,
-  schedule_interval="0 0-16 20 2 *"
-  # schedule_interval="0,5,10,15 20 20 2 *"
+  schedule_interval="0 0-16 19 2 *"
 )
 
 run_spark = BashOperator(task_id='run_spark',
