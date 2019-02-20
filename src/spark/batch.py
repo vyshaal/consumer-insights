@@ -4,23 +4,115 @@ from elasticsearch import Elasticsearch
 from collections import Counter
 import datetime
 import json
+import os
+
 
 ES_HOST = "ec2-34-237-82-149.compute-1.amazonaws.com"
 INITIAL_YEAR = "1999"
-
-# hosts = ["ec2-34-237-82-149.compute-1.amazonaws.com","ec2-54-209-26-36.compute-1.amazonaws.com","ec2-3-94-235-239.compute-1.amazonaws.com"]
-#hosts = ["ec2-34-237-82-149.compute-1.amazonaws.com"]
+YEAR_PATH = os.environ['YEAR_PATH']
 
 
 def conditional_delete_indices(year):
     if year == INITIAL_YEAR or year == "*":
         es_client.indices.delete(index='products', ignore=[404])
         es_client.indices.delete(index='reviews', ignore=[404])
+        review_settings = \
+            {
+              "settings": {
+                "index": {
+                  "number_of_shards": 3,
+                  "number_of_replicas": 2,
+                  "refresh_interval": "1s"
+                },
+                "analysis": {
+                  "analyzer": {
+                      "ci-analyzer": {
+                          "type": "custom",
+                          "filter": [
+                              "standard",
+                              "lowercase",
+                              "synonym",
+                              "snowball"
+                          ],
+                          "tokenizer": "standard"
+                      }
+                  },
+                  "filter": {
+                      "synonym": {
+                          "type": "synonym",
+                          "synonyms": ["annoy, irritate, vex, piss",
+                                       "horrible, awful, terrible",
+                                       "great, excellent, outstanding, awesome, extraordinary, decent, supreme",
+                                       "please, satisfy, enjoy",
+                                       "music, sound, bass",
+                                       "quality, feature, standard"]
+                      }
+                  }
+                }
+              },
+              "mappings": {
+                "review": {
+                  "properties": {
+                    "year": {
+                      "type": "long"
+                    },
+                    "star_rating": {
+                      "type": "integer"
+                    },
+                    "product_parent": {
+                      "type": "long"
+                    },
+                    "review_headline": {
+                      "type": "text",
+                      "analyzer": "ci-analyzer"
+                    },
+                    "review_body": {
+                      "type": "text",
+                      "analyzer": "ci-analyzer"
+                    },
+                    "helpful_votes": {
+                      "type": "long"
+                    },
+                    "total_votes": {
+                      "type": "long"
+                    },
+                    "marketplace": {
+                      "type": "text"
+                    },
+                    "vine": {
+                      "type": "text"
+                    },
+                    "review_id": {
+                      "type": "text"
+                    },
+                    "verified_purchase": {
+                      "type": "text"
+                    },
+                    "product_id": {
+                      "type": "text"
+                    },
+                    "review_date": {
+                      "type": "date"
+                    },
+                    "customer_id": {
+                      "type": "text"
+                    },
+                    "product_title": {
+                      "type": "text"
+                    }
+                  }
+                }
+              }
+            }
+
+        es_client.indices.create(index='reviews', body=review_settings)
 
 
 def get_year():
-    read_file = open("year.txt", "r")
+    read_file = open(YEAR_PATH, "r")
     year = str(read_file.read())
+    if year == "*":
+        return year
     if year is None or year == "" or int(year) > 2015:
         year = "1999"
     return year
@@ -29,7 +121,7 @@ def get_year():
 def update_year(year):
     if year == "*":
         return
-    write_file = open("year.txt", "w")
+    write_file = open(YEAR_PATH, "w")
     write_file.write(str(int(year) + 1))
     write_file.close()
 

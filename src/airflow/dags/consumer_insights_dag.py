@@ -25,7 +25,9 @@ dag = DAG(
   dag_id='consumer_insights_dag',
   description='Consumer Insights DAG',
   default_args=default_args,
-  schedule_interval="0 0-16 20 2 *")
+  schedule_interval="0 0-16 20 2 *"
+  # schedule_interval="0,5,10,15 20 20 2 *"
+)
 
 run_spark = BashOperator(task_id='run_spark',
                          bash_command='spark-submit --packages org.elasticsearch:elasticsearch-spark-20_2.10:6.6.0 '
