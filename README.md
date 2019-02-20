@@ -4,16 +4,16 @@
 “Not being customer-centric is the biggest threat to any business”
 
 Manufacturers and product designers are often interested in knowing how their product is doing in the market. 
-Now-a-days there are various avenues where they can collect feedback from the end customers. These are one of the 
-greatest data engineering problems to convert these large sets of data into valuable insights. From customer reviews 
-not only we can understand whether a customer liked a product or not but also get specifics of what went wrong or what 
-is it that they liked. This project will help in analyzing and solving some of these problems.
+Now a days there are various avenues where they can collect feedback from the Consumers. Converting these large 
+datasets into valuable insights has always been the bottleneck. From the customer reviews not only can we understand 
+if a customer liked a product or not but also get the specifics of what exactly went wrong and what is that they think
+could be improved. This project will help in analyzing and solve some of these problems.
 
 For example, a Product Manager at Bose Speakers would be interested in how their speakers are received in the market 
 and what their customers are talking about the speakers.
 
 * What do they like?
-* What're they annoyed about?
+* What are they annoyed about?
 * What do they expect?
 * Did their expectations change over the time?
 
