@@ -1,4 +1,5 @@
 .idea/
+config.ini
 **.pyc
 src/flask/flask_app/__pycache__
 src/airflow/logs/*

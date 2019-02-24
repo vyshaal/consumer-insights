@@ -8,7 +8,6 @@ from airflow.operators.bash_operator import BashOperator
 import datetime as dt
 from datetime import timedelta, datetime
 
-import os
 
 default_args = {
     'owner': 'airflow',
@@ -30,7 +29,7 @@ dag = DAG(
 
 run_spark = BashOperator(task_id='run_spark',
                          bash_command='spark-submit --packages org.elasticsearch:elasticsearch-spark-20_2.10:6.6.0 '
-                                      '~/consumer-insights/src/spark/batch.py', dag=dag)
+                                      '~/consumer-insights/src/spark/spark_job.py', dag=dag)
 
 notify = BashOperator(task_id='notify', bash_command="echo 'Hey, Spark job is finished successfully'", dag=dag)
 

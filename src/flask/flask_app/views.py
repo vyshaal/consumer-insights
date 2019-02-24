@@ -6,8 +6,10 @@ import json
 
 
 cors = CORS(app)
-es_cluster = [{'host': "ec2-34-237-82-149.compute-1.amazonaws.com", 'port': 9200}]
+config.read('/home/ubuntu/consumer-insights/config.ini')
+es_cluster = [{'host': config.get('elasticsearch', 'master'), 'port': config.get('elasticsearch', 'port')}]
 es_client = Elasticsearch(es_cluster)
+results_size = 25
 
 
 @app.route('/')
@@ -22,7 +24,7 @@ def index():
 def all_products():
     body = \
     {
-        "size": 25,
+        "size": results_size,
         "query": {
             "match_all": {}
         },
@@ -41,7 +43,7 @@ def all_products():
 def search_product(product_name=None):
     body = \
         {
-            "size": 25,
+            "size": results_size,
             "query": {
                 "function_score": {
                     "query": {
@@ -92,7 +94,7 @@ def fetch_review(review_id=None):
 def search_product_reviews(product_id=None, feature=None):
     body = \
         {
-            "size": 25,
+            "size": results_size,
             "query": {
                 "bool": {
                     "must": [
@@ -101,7 +103,7 @@ def search_product_reviews(product_id=None, feature=None):
                                 "query": feature,
                                 "fields": ["review_body", "review_headline^2"],
                                 "type": "phrase",
-                                "slop": 10
+                                "slop": 5
                             }
                         },
                         {
