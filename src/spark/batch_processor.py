@@ -1,22 +1,25 @@
-from pyspark.sql import SparkSession, SQLContext, Row
+from pyspark.sql import SparkSession, SQLContext
 from pyspark.sql import functions as F
 from elasticsearch import Elasticsearch
 from collections import Counter
-import datetime
 import json
-import os
 from configparser import ConfigParser
 
 
 class BatchProcessor:
 
-    def __init__(self, es_master):
+    def __init__(self, es_master, spark_master):
+        """
+        Initializes a batch processor and reads current year from configuration file
+        :param es_master: public dns of elasticsearch-cluster
+        :param spark_master: public dns of spark-cluster
+        """
         self.ES_HOST = es_master
         self.es_cluster = [{'host': self.ES_HOST, 'port': 9200}]
         self.es_client = Elasticsearch(self.es_cluster)
 
         self.spark = SparkSession.builder \
-            .master("spark://ec2-34-199-62-71.compute-1.amazonaws.com:7077") \
+            .master("spark://"+spark_master+":7077") \
             .appName("consumer-insights") \
             .config("spark.executor.memory", "6gb") \
             .getOrCreate()
@@ -33,13 +36,24 @@ class BatchProcessor:
         self.products = None
 
     def process_reviews(self, current_year):
+        """
+        Reads reviews from s3 bucket and aggregates them by product
+        :param current_year: year whose reviews need to be processed
+        """
         self.reviews = self.sqlContext.read.parquet("s3n://amazon-customer-reviews-dataset/timeseries/" + current_year +
                                                     "/Electronics/*.parquet")
         self.products = self.reviews.groupby("product_id", "product_title").agg(
             F.collect_list("star_rating").alias("ratings"), F.collect_list("review_date").alias("review_dates"))
 
     def save_products(self):
+        """
+        Persisting products into the database
+        """
         def compute_analytics(product_list):
+            """
+            Calculating the product analytics and upserting into the database
+            :param product_list: List of products that are present in a partition
+            """
             es_cluster = [{'host': "ec2-34-237-82-149.compute-1.amazonaws.com", 'port': 9200}]
             es_client = Elasticsearch(es_cluster)
             for product in product_list:
@@ -72,6 +86,9 @@ class BatchProcessor:
         self.products.foreachPartition(compute_analytics)
 
     def save_reviews(self):
+        """
+        Persisting reviews into the database
+        """
         reviews_rdd = self.reviews.rdd.map(lambda review: (review["review_id"],
                                                            json.dumps(review.asDict(), default=str)))
 
@@ -93,6 +110,12 @@ class BatchProcessor:
         )
 
     def conditional_delete_indices(self, year, settings, mappings):
+        """
+        Deletion & Creation of new indices
+        :param year: the year whose reviews need to be processed
+        :param settings: elasticsearch configuration settings
+        :param mappings: schema for reviews
+        """
         if year == self.INITIAL_YEAR or year == "*":
             self.es_client.indices.delete(index='products', ignore=[404])
             self.es_client.indices.delete(index='reviews', ignore=[404])
@@ -104,4 +127,7 @@ class BatchProcessor:
             self.es_client.indices.create(index='reviews', body=review_settings)
 
     def stop_spark(self):
+        """
+        Stopping spark instance
+        """
         self.spark.stop()

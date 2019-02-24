@@ -30,13 +30,13 @@ export class ProductComponent implements OnInit {
       this.productService.findProductById(params.get('productId')).then(
         response => {
           this.product = response;
-          console.log(this.product);
+          // console.log(this.product);
           this.reviewService.findReviewByProduct(this.product["product_id"]).then(
             res => {
               this.count = res['hits']['total'];
               this.dummy = res['hits']['hits'];
               this.reviews = this.dummy.map(function (x) {return x["_source"]});
-              console.log(this.reviews);
+              // console.log(this.reviews);
             }
           )
         });
@@ -51,11 +51,11 @@ export class ProductComponent implements OnInit {
         this.dummy = response['hits']['hits'];
         this.reviews = this.dummy.map(function (x) {return x["_source"]});
       });
-    console.log(this.reviews);
+    // console.log(this.reviews);
   };
 
   showReview = (review) => {
     this.the_review = review;
-    console.log(this.the_review);
+    // console.log(this.the_review);
   }
 }

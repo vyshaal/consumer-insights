@@ -29,7 +29,7 @@ export class ProductSearchComponent implements OnInit {
         this.dummy = response['hits']['hits'];
         this.products = this.dummy.map(function (x) {return x["_source"]});
       });
-    console.log(this.products);
+    // console.log(this.products);
   };
 
   mouseEnter = (product) => {

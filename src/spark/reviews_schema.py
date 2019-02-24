@@ -1,3 +1,6 @@
+"""
+    Settings related to Reviews
+"""
 settings = \
     {
         "index": {
@@ -32,6 +35,10 @@ settings = \
         }
     }
 
+
+"""
+    Schema related to reviews
+"""
 mappings = \
     {
         "review": {
@@ -83,7 +90,7 @@ mappings = \
                 "product_title": {
                   "type": "text"
                 }
-      }
+            }
+        }
     }
-  }
 
